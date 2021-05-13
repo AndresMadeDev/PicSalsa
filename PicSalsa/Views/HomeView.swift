@@ -16,15 +16,16 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
         VStack {
+            Spacer()
+            
                     Image("logo")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .padding()
                         .onTapGesture(count: 4) {
                             showSignInView = true
                         }.fullScreenCover(isPresented: $showSignInView, content: {
                             SignInView()
-                        })
+                        }).padding(.horizontal)
             
             NavigationLink(
                 destination: Menu(),
@@ -37,11 +38,11 @@ struct HomeView: View {
                         .foregroundColor(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                         
-                }).padding()    
+                }).padding()
             Spacer()
             
             }
-        .background(Color.white)
+        .padding(.bottom, 100)
             .navigationBarHidden(true)
         }
     }

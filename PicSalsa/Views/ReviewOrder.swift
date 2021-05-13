@@ -12,6 +12,7 @@ struct ReviewOrder: View {
     @ObservedObject var order = Order()
     @State private var showingAlert = false
     var db = Firestore.firestore()
+    @Binding var shouldPopToRootView : Bool
     
     
     
@@ -114,9 +115,7 @@ struct ReviewOrder: View {
                         }else {
                            
                         }
-
                     }
-                       
                 }
                 
                 
@@ -136,8 +135,6 @@ struct ReviewOrder: View {
                         }else {
                            
                         }
-
-                        
                     }
                 }
                 
@@ -181,7 +178,6 @@ struct ReviewOrder: View {
                 .alert(isPresented: $showingAlert, content: {
                     Alert(title: Text("Thank you for your order"), message: Text("We will text you with the comfirmation"), dismissButton: .default(Text("Thank you")))
                 })
-                
             }
         }.navigationTitle("Review and Place Order")
     }
@@ -222,30 +218,7 @@ struct ReviewOrder: View {
           "dateAdded": Timestamp(date: Date()),
 
         ])
-        
-        order.delivery = false
-        order.deliveryFee = 0
-        
-        order.name = ""
-        order.tel = ""
-        order.email = ""
-        order.original = 0
-        order.originalSpicy = false
-        order.mango = 0
-        order.mangoSpicy = false
-        order.pineapple = 0
-        order.pineappleSpicy = false
-        order.mangoPineapple = 0
-        order.mangoPineappleSpicy = false
-        
-        
     }
 }
-
-//struct ReviewOrder_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ReviewOrder()
-//    }
-//}
 
 

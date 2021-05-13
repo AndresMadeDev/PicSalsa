@@ -34,7 +34,7 @@ class Order: ObservableObject {
     @Published var city = ""
     @Published var state = ""
     @Published var zip = ""
-    @Published var tel = ""
+    @Published var tel = "Tel: "
     @Published var email = ""
     
     @Published var delivery = false
@@ -42,7 +42,7 @@ class Order: ObservableObject {
     
     var deliveryTotalFee: Bool {
         if delivery == true {
-            deliveryFee = 2
+            deliveryFee = 3
         }
         return delivery
     }

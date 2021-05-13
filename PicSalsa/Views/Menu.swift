@@ -10,6 +10,7 @@ import SwiftUI
 struct Menu: View {
     
     @ObservedObject var order = Order()
+    @State var isActive : Bool = false
 
     var body: some View {
        
@@ -71,14 +72,16 @@ struct Menu: View {
                 }
                 
                 Section {
-                    NavigationLink(destination: AddressView(order: order)) {
+                    NavigationLink(destination: AddressView(order: order, rootIsActive: self.$isActive),  isActive: self.$isActive) {
                         Text("Next")
                     }
+                    .isDetailLink(false)
                     .disabled(order.hasValidOrder == false)
                     
                 }
                 
             }
+            
             .navigationBarTitle("Place your Order")
             }
         

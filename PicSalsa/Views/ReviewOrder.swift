@@ -9,13 +9,11 @@ import SwiftUI
 import Firebase
 
 struct ReviewOrder: View {
+    @Environment(\.route) private var route: Binding<Route>
     @ObservedObject var order = Order()
     @State private var showingAlert = false
     var db = Firestore.firestore()
-    @Binding var shouldPopToRootView : Bool
-    
-    
-    
+
     var originalTotalPrice: Int{
        let originalTotalPrices =  order.original * order.originalPrice
         return originalTotalPrices
@@ -44,8 +42,6 @@ struct ReviewOrder: View {
         return totalSale
     }
     
-    
-    
     var body: some View {
         
         Form {
@@ -56,15 +52,14 @@ struct ReviewOrder: View {
                     
                 }else{
                     Text(order.email)
-                    .font(.title3)
+                        .font(.title3)
                 }
             }
-            
-            
-                Section{
-                    if order.delivery == false {
-                        Text("Curbside Pick Up")
-                    } else {
+
+            Section{
+                if order.delivery == false {
+                    Text("Curbside Pick Up")
+                } else {
                     Text("Delivery address:")
                     Text(order.streetAddress)
                     Text(order.city)
@@ -73,17 +68,17 @@ struct ReviewOrder: View {
                             .padding(.trailing)
                         Text(order.zip)
                     }
-
+                    
                     Text("Delivery fee: $\(order.deliveryFee)")
                 }
             }
-   
+            
             Section{
                 
-                    if order.original == 0{
-                        
-                    } else {
-                        HStack(alignment: .center) {
+                if order.original == 0{
+                    
+                } else {
+                    HStack(alignment: .center) {
                         Text("Original    ")
                         Spacer()
                         Text("Qty: \(order.original)")
@@ -92,18 +87,16 @@ struct ReviewOrder: View {
                         Spacer()
                         if order.originalSpicy{
                             Text("🌶")
-                        }else {
-                           
                         }
-
+                        
                     }
-                      
+                    
                 }
                 
-                    if order.mango == 0{
-                        
-                    } else {
-                        HStack(alignment: .center) {
+                if order.mango == 0{
+                    
+                } else {
+                    HStack(alignment: .center) {
                         Text("Mango     ")
                         Spacer()
                         Text("Qty: \(order.mango)")
@@ -112,17 +105,15 @@ struct ReviewOrder: View {
                         Spacer()
                         if order.mangoSpicy{
                             Text("🌶")
-                        }else {
-                           
                         }
                     }
                 }
                 
                 
-                    if order.pineapple == 0{
-                        
-                    } else {
-                        HStack(alignment: .center) {
+                if order.pineapple == 0{
+                    
+                } else {
+                    HStack(alignment: .center) {
                         Text("Pineapple")
                         Spacer()
                         Text("Qty: \(order.pineapple)")
@@ -132,8 +123,6 @@ struct ReviewOrder: View {
                         
                         if order.pineappleSpicy{
                             Text("🌶")
-                        }else {
-                           
                         }
                     }
                 }
@@ -150,11 +139,8 @@ struct ReviewOrder: View {
                         Spacer()
                         if order.mangoPineappleSpicy{
                             Text("🌶")
-                        }else {
-                            
                         }
                     }
-                    
                 }
             }
             
@@ -165,25 +151,30 @@ struct ReviewOrder: View {
             }
             
             Section{
-                
                 Text("Total: $\(total)")
             }
             
             Section{
                 Button("Place Order"){
                     upLoad()
-                    showingAlert = true
+                    showingAlert.toggle()
                 }
                 .disabled(order.hasValidName == false)
-                .alert(isPresented: $showingAlert, content: {
-                    Alert(title: Text("Thank you for your order"), message: Text("We will text you with the comfirmation"), dismissButton: .default(Text("Thank you")))
+                .sheet(isPresented: $showingAlert, onDismiss: dissmiss, content: {
+                    VStack {
+                        Text("Thank you for your order.")
+                        Text("We will text you to comfirm your order.")
+                    }
                 })
             }
         }.navigationTitle("Review and Place Order")
     }
+    func dissmiss(){
+        route.wrappedValue = .home
+    }
+    
     func upLoad(){
         db.collection("order").addDocument(data: [
-
             "name": order.name,
             "tel": order.tel,
             "email": order.email,
@@ -218,6 +209,18 @@ struct ReviewOrder: View {
           "dateAdded": Timestamp(date: Date()),
 
         ])
+        order.name = ""
+        order.tel = ""
+        order.email = ""
+        order.streetAddress = ""
+        order.city = ""
+        order.zip = ""
+        order.original = 0
+        order.mango = 0
+        order.pineapple = 0
+        order.mangoPineapple = 0
+        order.comment = ""
+        order.delivery = false
     }
 }
 

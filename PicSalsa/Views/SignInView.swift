@@ -9,9 +9,8 @@ import SwiftUI
 
 struct SignInView: View {
     
-    @EnvironmentObject var viewModel: AuthViewModel
+    @EnvironmentObject private var viewModel: AuthViewModel
     @Environment(\.presentationMode) var mode
-    
     @State var email: String = ""
     @State var password: String = ""
     
@@ -45,8 +44,8 @@ struct SignInView: View {
                         .background(Color(#colorLiteral(red: 0.9660997987, green: 0.2294508219, blue: 0.2233918607, alpha: 1)))
                         .cornerRadius(10)
                 })
-                Spacer()
                 
+                Spacer()
                 
                 Image(systemName: "xmark.circle")
                     .font(.largeTitle)
@@ -62,8 +61,8 @@ struct SignInView: View {
     }
 }
 
-struct SignInView_Previews: PreviewProvider {
-    static var previews: some View {
-        SignInView()
-    }
-}
+//struct SignInView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SignInView()
+//    }
+//}

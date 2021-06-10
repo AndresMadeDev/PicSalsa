@@ -9,33 +9,30 @@ import SwiftUI
 import Firebase
 import iPhoneNumberField
 
-
-
-
 struct AddressView: View {
     
     @ObservedObject var order = Order()
     @State var isEditing: Bool = false
     @State var phoneEditing = false
-    @Binding var rootIsActive : Bool
+    @State var showReviewView = false
+   
     
  var body: some View {
-        VStack {
+       
             Form {
                 Section {
                     TextField("Name", text: $order.name)
                         .keyboardType(.default)
-//                    TextField("Tel:", text: $order.tel)
-//                        .keyboardType(.numberPad)
+                        .autocapitalization(.words)
                     
-                    iPhoneNumberField("Tel: (000) 000-0000", text: $order.tel)
-                        .flagHidden(false)
-                        .flagSelectable(false)
+                    iPhoneNumberField("", text: $order.tel)
+                        .foregroundColor(.lightGray)
                         .maximumDigits(10)
                         .clearButtonMode(.whileEditing)
                         .onClear { _ in isEditing.toggle() }
                         
                     TextField("Email", text: $order.email)
+                        .autocapitalization(.none)
                         .keyboardType(.emailAddress)
                 }
                 
@@ -52,32 +49,32 @@ struct AddressView: View {
                     if order.delivery == true {
                         Text("Only local delivery")
                         TextField("Street Address", text: $order.streetAddress)
+                            .autocapitalization(.words)
                         TextField("City", text: $order.city)
+                            .autocapitalization(.words)
                         TextField("State", text: $order.state)
+                            .autocapitalization(.allCharacters)
                         TextField("Zip", text: $order.zip)
+                            .keyboardType(.numberPad)
                     }
                     
                 }
                 
                 Section(header: Text("Comments")) {
                     TextItem(text: $order.comment, placeholder: "Notes")
+                        .autocapitalization(.words)
                         .frame(height: 100)
                 }
                 Section {
-                    NavigationLink(destination: ReviewOrder(order: order, shouldPopToRootView: self.$rootIsActive)) {
+                    NavigationLink(destination: ReviewOrder(order: order)) {
                         Text("Review Order")
                     }
-                    .isDetailLink(false)
                     .disabled(order.hasValidName == false)
+                    
                 }
             }.navigationTitle("Customer Information").navigationBarTitleDisplayMode(.inline)
-        }
+        
     }
 }
 
-//struct AddressView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AddressView()
-//    }
-//}
 

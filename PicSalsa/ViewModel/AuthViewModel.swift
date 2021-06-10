@@ -12,13 +12,12 @@ class AuthViewModel: ObservableObject {
     
     @Published var userSession: FirebaseAuth.User?
     static let shared = AuthViewModel()
-    
     @Published var orderModel = [OrderModel]()
     private var db = Firestore.firestore()
     
     init(){
         userSession = Auth.auth().currentUser
-//        fetchOrders()
+
     }
     
     func login(withEmail email: String, withPassword password: String) {
@@ -68,7 +67,7 @@ class AuthViewModel: ObservableObject {
     func signOut(){
         self.userSession = nil
         try? Auth.auth().signOut()
-        print("Sucsess Logged out.......")
+        
         
     }
     

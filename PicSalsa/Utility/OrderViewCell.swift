@@ -24,14 +24,15 @@ struct OrderViewCell: View {
                         .font(.title3)
                     Text(tel)
                 }
-                
-                
                 HStack {
                     Text(dateAdded)
                         .font(.caption)
                     Spacer()
                     Text("Total: $\(total)")
                 }
+            }
+            List(/*@START_MENU_TOKEN@*/0 ..< 5/*@END_MENU_TOKEN@*/) { item in
+                Text("")
             }
             
            

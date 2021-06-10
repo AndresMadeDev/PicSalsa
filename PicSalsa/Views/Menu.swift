@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct Menu: View {
-    
     @ObservedObject var order = Order()
-    @State var isActive : Bool = false
-
+    @Environment(\.route) private var route: Binding<Route>
+    
     var body: some View {
-       
+        NavigationView {
             Form{
                 Section(header: Text("🍅 Original $10")){
                     Stepper(value: $order.original.animation(), in: 0...10) {
@@ -72,20 +71,20 @@ struct Menu: View {
                 }
                 
                 Section {
-                    NavigationLink(destination: AddressView(order: order, rootIsActive: self.$isActive),  isActive: self.$isActive) {
+                    NavigationLink(destination: AddressView(order: order)) {
                         Text("Next")
                     }
-                    .isDetailLink(false)
                     .disabled(order.hasValidOrder == false)
-                    
                 }
-                
             }
-            
             .navigationBarTitle("Place your Order")
-            }
-        
+            .navigationBarItems(trailing: Button(action: {
+                route.wrappedValue = .home
+            }, label: {
+                Text("Exite")
+            }))        }
     }
+}
 
 
 struct Menu_Previews: PreviewProvider {

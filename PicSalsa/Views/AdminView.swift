@@ -43,10 +43,74 @@ struct AdminView: View {
                             comment: item.comment
                             ),
                         label: {
-                            OrderViewCell(name: item.name,
-                                          tel: item.tel,
-                                          total: item.total,
-                                      dateAdded: item.dateString)
+                                VStack(alignment: .leading, spacing: 20){
+                                    VStack(alignment: .leading) {
+                                        Text(item.name)
+                                            .bold()
+                                        Text(item.tel)
+                                        Text(item.dateString)
+                                        Text("Total: $\(item.total)")
+                                        
+                                        
+                                    }
+                                    Text("Order:")
+                                        .bold()
+                                    VStack{
+                                        if item.original == 0 {
+                                            
+                                        } else {
+                                            HStack {
+                                                Text("Original")
+                                                Spacer()
+                                                Text("Qty: \(item.original)")
+                                                Spacer()
+                                                if item.originalSpicy{
+                                                    Text("🌶")
+                                                }
+                                            }
+                                        }
+                                        if item.mango == 0 {
+                                            
+                                        } else {
+                                            HStack {
+                                                Text("Mango")
+                                                Spacer()
+                                                Text("Qty: \(item.mango)")
+                                                Spacer()
+                                                if item.mangoSpicy{
+                                                    Text("🌶")
+                                                }
+                                            }
+                                        }
+                                        if item.pineapple == 0 {
+                                            
+                                        } else {
+                                            HStack {
+                                                Text("Pineapple")
+                                                Spacer()
+                                                Text("Qty: \(item.pineapple)")
+                                                Spacer()
+                                                if item.pineappleSpicy{
+                                                    Text("🌶")
+                                                }
+                                            }
+                                        }
+                                        if item.mangoPineapple == 0 {
+                                            
+                                        } else {
+                                            HStack {
+                                                Text("Original")
+                                                Spacer()
+                                                Text("Qty: \(item.mangoPineapple)")
+                                                Spacer()
+                                                if item.mangoPineappleSpicy{
+                                                    Text("🌶")
+                                                }
+                                            }
+                                        }
+                                    }
+                                }.padding(.bottom)
+                            
                         })
                     }.onDelete(perform: deleteitem)
                    
@@ -63,6 +127,7 @@ struct AdminView: View {
                         Spacer()
 
                         SignOutButton()
+                            .padding(.bottom)
                             .onTapGesture {
                                 AuthViewModel.shared.signOut()
                             }.fullScreenCover(isPresented: $exit, content: {
@@ -71,11 +136,10 @@ struct AdminView: View {
                                                
                     }.padding(.trailing)
                 }
-            }
+            }.navigationBarItems(trailing: Text("Number of Order: \(viewModel.orderModel.count )"))
         }
     }
     func deleteitem(at offset: IndexSet){
-       print("Delete")
         viewModel.delete(at: offset)
     }
 }

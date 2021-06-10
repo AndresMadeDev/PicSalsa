@@ -10,13 +10,22 @@ import SwiftUI
 struct ContentView: View {
     
     @EnvironmentObject var viewModel: AuthViewModel
+    @AppStorage("route") var route = Route.onboarding
     
     var body: some View {
         Group {
             if viewModel.userSession == nil {
-                HomeView()
+//                HomeView()
+                
+                switch route {
+                case .onboarding:
+                    Menu().environment(\.route, $route)
+                case .home:
+                    HomeView().environment(\.route, $route)
+                }
+                
             } else {
-                AdminView()
+                AdminTabView()
             }
         }
     }

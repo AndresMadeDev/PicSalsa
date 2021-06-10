@@ -8,9 +8,7 @@
 import Foundation
 
 class Order: ObservableObject {
-    
-    
-    
+
     @Published var original = 0
     @Published var originalSpicy = false
     @Published var originalPrice = 10
@@ -39,6 +37,11 @@ class Order: ObservableObject {
     
     @Published var delivery = false
     @Published var deliveryFee = 0
+    
+    @Published var introMessage = ""
+    @Published var openStore = false
+    
+    @Published var selection:Int? = nil
     
     var deliveryTotalFee: Bool {
         if delivery == true {
